@@ -77,7 +77,7 @@ const MovieList = () => {
     inputTitle === ""
       ? setList(movieList)
       : setList(
-          movieList.filter((movie) =>
+          List.filter((movie) =>
             movie.title
               .toLocaleLowerCase()
               .includes(SearchMvbyName.toLocaleLowerCase())
@@ -90,7 +90,7 @@ const MovieList = () => {
     setsearchMvByRate(rateValue);
     rateValue === 0
       ? setList(movieList)
-      : setList(movieList.filter((movie) => movie.rate > searchMvByRate));
+      : setList(List.filter((movie) => movie.rate > searchMvByRate));
   };
 
   return (
