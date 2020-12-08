@@ -1,34 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import MovieCard from "./MovieCard";
+import { Form, Col } from "react-bootstrap";
+import FilterMv from "./FilterMv";
 
 const MovieList = () => {
-  let List = [
+  const [MovieAdd, setMovieAdd] = useState(false);
+  let [MovieTitle, setMovieTitle] = useState("MovieName");
+  let [MovieDescrip, setMovieDescrip] = useState("MovieDescrip");
+  let [MovieRate, setMovieRate] = useState(0);
+  let [MoviePosterUrl, setPosterUrl] = useState("/url");
+  let [searchedMv, setsearchedMv] = useState("");
+
+  let [List, setList] = useState([
     {
       title: "Gladiator",
       description:
-        "Le général romain Maximus est le plus fidèle soutien de l'empereur Marc Aurèle, qu'il a conduit de victoire en victoire. Jaloux du prestige de Maximus, et plus encore de l'amour que lui voue l'empereur, le fils de Marc Aurèle, Commode, s'arroge brutalement le pouvoir, puis ordonne l'arrestation du général et son exécution. Maximus échappe à ses assassins, mais ne peut empêcher le massacre de sa famille. Capturé par un marchand d'esclaves, il devient gladiateur et prépare sa vengeance.",
+        "The Roman general Maximus is the most faithful support of the emperor Marcus Aurelius, whom he led from victory to victory. Jealous of Maximus 'prestige, and even more of the emperor's love for him, Marcus Aurelius' son, Commodus, brutally arrogates himself to power, then orders the general's arrest and execution. Maximus escapes his assassins, but cannot prevent the slaughter of his family. Captured by a slave trader, he becomes a gladiator and prepares his revenge.",
       rate: 0,
       imgSrc: "/Gladiator.jpg",
     },
     {
       title: "Shawshank Redemprion",
       description:
-        "En 1947, Andy Dufresne, un jeune banquier, est condamné à la prison à vie pour le meurtre de sa femme et de son amant. Ayant beau clamer son innocence, il est emprisonné à `Shawshank', le pénitencier le plus sévère de l'Etat du Maine. Il y fait la rencontre de Red, un homme désabusé, détenu depuis 20 ans. Commence alors une grande histoire d'amitié entre les deux hommes.",
+        "In 1947, Andy Dufresne, a young banker, was sentenced to life in prison for the murder of his wife and her lover. Despite claiming his innocence, he was imprisoned in Shawshank, the most severe penitentiary in the state of Maine. There he meets Red, a disillusioned man, detained for 20 years. Then begins a great story of friendship between the two men.",
       rate: 0,
       imgSrc: "/TheShawshank.jpg",
     },
     {
       title: "Spy Game ",
       description:
-        "A l'heure de quitter la CIA, Nathan Muir apprend que son ex-partenaire, le jeune tom Bishop, vient d'être capturé en Chine lors d'une opération audacieuse. Accusé d'espionnage, il sera exécuté dans les 24 heures. La CIA, craignant un incident international, refuse de le sauver. Oubliant les rancoeurs, Nathan décide de s'en occuper lui-même. Pour lui commence alors sa mission la plus personnelle et la plus dangereuse.",
+        "At the time of leaving the CIA, Nathan Muir learns that his ex-partner, the young tom Bishop, has just been captured in China during a daring operation. Accused of espionage, he will be executed within 24 hours. The CIA, fearing an international incident, refuses to save him. Forgetting the resentment, Nathan decides to take care of it himself. For him then begins his most personal and most dangerous mission.",
       rate: 0,
       imgSrc: "/SpyGame.jpg",
     },
-  ];
+    {
+      title: "Titanic",
+      description:
+        "In 1997, the wreckage of the Titanic was the subject of a feverish exploration, led by treasure seekers in search of a blue diamond that emerges on board. Struck by a television report, one of the survivors of the shipwreck, aged 102, Rose DeWitt, goes there and talks about her memories. 1912. Engaged to an arrogant industrialist, Rose meets a penniless artist on the boat.",
+      rate: 0,
+      imgSrc: "/Titanic.jpg",
+    },
+  ]);
+
+  const handleForm = () => setMovieAdd(true);
+
+  const confirmAdd = () => {
+    setList([
+      ...List,
+      {
+        title: MovieTitle,
+        description: MovieDescrip,
+        rate: MovieRate,
+        imgSrc: MoviePosterUrl,
+      },
+    ]);
+
+    setMovieAdd(false);
+  };
+
+  const confirmSearch = () => {
+    setList(List.filter((movie, i) => movie.title[i] == searchedMv[i]));
+  };
+
+  const onSearchHandler = (keywords) => {
+    setsearchedMv(keywords);
+  };
+
   return (
-    <div className="MovieCard">
-      {List.map((movie) => (
+    <div className="MovieList">
+      <div style={{ display: "flex" }}>
+        <FilterMv onSearchHandler={onSearchHandler} />
+        <button className="ConfirmAddMovieBtn" onClick={confirmSearch}>
+          Search
+        </button>
+      </div>
+      {List.map((movie, i) => (
         <MovieCard
+          key={i}
           title={movie.title}
           description={movie.description}
           rate={movie.rate}
@@ -37,6 +85,64 @@ const MovieList = () => {
           <img src={movie.imgSrc} style={{ width: "250px" }} />
         </MovieCard>
       ))}
+
+      <a href="#bottomBtn">
+        <button className="AddMovieBtn" onClick={handleForm}>
+          Add Movie
+        </button>
+      </a>
+      <div>
+        {MovieAdd === true && (
+          <Form className="AddMovieForm">
+            <Form.Row>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Movie title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Movie title"
+                    onChange={(e) => setMovieTitle(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Movie rate</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Movie Rate"
+                    onChange={(e) => setMovieRate(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Form.Row>
+            <Form.Group>
+              <Form.Label>Movie description</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Movie description"
+                onChange={(e) => setMovieDescrip(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Movie Poster URL</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Poster URL"
+                onChange={(e) => setPosterUrl(e.target.value)}
+              />
+            </Form.Group>
+            <button
+              id="bottomBtn"
+              className="ConfirmAddMovieBtn"
+              variant="primary"
+              onClick={confirmAdd}
+            >
+              Confirm
+            </button>
+          </Form>
+        )}
+      </div>
     </div>
   );
 };
