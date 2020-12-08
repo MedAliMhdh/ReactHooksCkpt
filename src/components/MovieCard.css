@@ -75,3 +75,55 @@ h3 {
   background-color: #eff5f5;
   color: #161919;
 }
+
+.serchInput {
+  font-family: "Montserrat", sans-serif;
+  width: 200px;
+  height: 50px;
+  margin: 30px;
+  border: none;
+  border-radius: 8px;
+  color: #eff5f5;
+  transition: background-color 0.5s ease;
+  font-size: 20px;
+}
+
+.serchInput:hover {
+  background-color: #eff5f5;
+  color: #161919;
+}
+
+.rateInput {
+  font-family: "RobMontserrat", sans-serif;
+  font-size: 20px;
+  width: 120px;
+  height: 50px;
+  margin: 30px;
+  border: none;
+  border-radius: 8px;
+  color: #eff5f5;
+  transition: background-color 0.5s ease;
+}
+
+.rateInput:hover {
+  background-color: #eff5f5;
+  color: #161919;
+}
+
+.ConfirmSearchBtn {
+  font-family: "Montserrat";
+  font-size: 15px;
+  width: 150px;
+  height: 50px;
+  margin: 30px;
+  border-radius: 8px;
+  border: none;
+  background-color: #161919;
+  color: #eff5f5;
+  transition: background-color 0.5s ease;
+}
+
+.ConfirmSearchBtn:hover {
+  background-color: #eff5f5;
+  color: #161919;
+}
